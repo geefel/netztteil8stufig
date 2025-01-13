@@ -1,3 +1,7 @@
+# QT
+*.pro
+*.pro.*
+
 # Prerequisites
 *.d
 
