@@ -1,0 +1,112 @@
+2 x Netzteile mit 5 verschiedenen Spannungen: APS-1500_DS_DE (Netzteil7)
+1 x Netzteil mit 12V                                         (Netzteil1)
+-------------------------
+
+Stromseite:
+
+Netzteil7 Schalter ausbauen, alte Schalterpole auf je ein 2-Kanal-Relay legen (für + und - Spannung) 3V, 5V, 7,5V, 9V, 12V (4,5V und 6V wird nicht benutzt)
+Netzteil1 für 12V, 9V und 5V Dauerspannung auslegen mit z.B. 7805.
+Netzteil-Input (230V) über Schalter und Relay schaltbar machen.
+5 x Relay für Netzteil7 Ausgänge gesteuert von PIC
+1 x Relay für Netzteil1 Ausgang  gesteuert von PIC
+1 x Hauptstromrelay für 230V     gesteuert von PIC(?)
+1 x Hauptstromschalter
+1 x Schalter für das Schalten von 0V auf GND
+5 Taster schalten Kleinspannung, dafür eine 2 x 3 Matrix von PIC
+1 Taster schaltet Netzteil1-Relay, direkt auf Interrupt-Pin AVR
+1 Taster schalten 230V-Relay,      direkt auf Interrupt-Pin AVR
+
+Pegelwandler ULN2803 für 7 Relays
+
+PIC beim Einschalten:
+alle Ports sind Inputs.
+MCLR-Pin:
+Wenn low und dann high, dann Reset. Muss unbelegt oder auf VCC sein, damit PIC läuft oder mit Logig-Pin.
+
+PIC 1
+Der Pic kontrolliert die 6 Relays von Netzteil7.
+Der Pic encodiert die 6 Taste zur Kontrolle der Netzteil7-Relays
+Der Pic gibt über I2C die Infos über die Tasten an den PIC 1D weiter.
+PIC Pinbelegung: RB[0]    INT für Notaus     in
+                 RB[1]    I2C-Clock SCL      out
+                 RB[2]    I2C-Data  SDA Send out
+                 RB[3..7] Relayansteuerung   out
+                 RA[0..4] Tasteneingang      in
+                 MCLR
+                 VCC und GND
+
+PIC 1D
+Der Pic kontrolliert Display für PIC 1 Aktionen.
+Der PIC bekommt per I2C Infos von PIC 1 über Tastenstatus.
+PIC Pinbelegung: RB[0]    
+                 RB[1]    I2C-Clock SCL von PIC 1
+                 RB[2]    I2C-Data  SDA von PIC 1
+                 RA[2]    SDCLK: Clock für Display
+                 RA[3]    DATA:  Daten für Display
+                 RA[4]    !LOAD: DisplaySelect
+				 MCLR
+
+PIC 2
+Der Pic kontrolliert Netzteil1-Relay und Hauptstrom-Relay.
+Der Pic encodiert die 2 Taste zur Kontrolle von Netzteil1-Relay und Netzrelay(?).
+Der Pic gibt über I2C die Infos über die Tasten an den PIC 2D weiter.
+PIC Pinbelegung: RB[0]    INT für Notaus     in
+                 RB[1]    I2C-Clock SCL      out
+                 RB[2]    I2C-Data  SDA Send out
+                 RB[3,4]  Relayansteuerung   out
+                 RA[0,1]  Tasteneingang      in
+                 VCC und GND
+				 MCLR
+
+PIC 2D
+Der Pic kontrolliert Display für PIC 2 Aktionen.
+Der PIC bekommt per I2C Infos von PIC 2 über Tastenstatus.
+PIC Pinbelegung: RB[0]    
+                 RB[1]    I2C-Clock SCL von PIC 2
+                 RB[2]    I2C-Data  SDA von PIC 2
+                 RA[2]    SDCLK: Clock für Display
+                 RA[3]    DATA:  Daten für Display
+                 RA[4]    !LOAD: DisplaySelect
+				 MCLR
+                 
+
+Der AVR benutzt 3 Analog in um Stromverbrauch zu messen.
+Der AVR steuert Display für Stromanzeigen für Netzteil7 und Netzteil1.
+AVR Pinbelegung: ATtiny84?
+                 X1      in  ADC für + Strom Netzteil7 (muss berechnet werden, je nach Spannungsquelle(?))
+                 X2      in  ADC für - Strom Netzteil7 (muss berechnet werden, je nach Spannungsquelle(?))
+                 X3      in  ADC für Strom Netzteil1 12V
+                 X4      in  ADC für Strom Netzteil1 5V
+                 X5      in  I2C-Clock SCL von PIC 1
+                 X6      in  I2C-Data SDA von PIC 1 & 2 für Tastenstatus
+                 X7      out SDCLK: Clock für Display
+                 X8      out DATA:  Daten für Display
+                 X9      out !LOAD: DisplaySelect1 Stromanzeige
+                 X10     out !LOAD: DisplaySelect2 Stromanzeige
+                 X11     out !LOAD: DisplaySelect3 Stromanzeige
+                 X12     out Notaus
+
+ODER:
+ein PIC für alle Displays (ca. 4 Stück)
+Pin-Belegung:
+  RA0  !LOAD: DisplaySelect1 out
+  RA1  !LOAD: DisplaySelect2 out
+  RA2  !LOAD: DisplaySelect3 out
+  RA3  !LOAD: DisplaySelect4 out
+  RA4  
+  RB0  SDCLK: Clock für Display out
+  RB1  DATA:  Daten für Display out
+  RB2  
+  RB3  SCLK von PICn           in                 
+  RB4  SDATA1 PCINT von PIC1   in
+  RB5  SDATA2 PCINT von PIC2   in
+  RB6  SDATA3 PCINT von PIC3   in
+  RB7  SDATA4 PCINT von ATtiny in
+
+
+Display Pinbelegung
+                 SDCLK Clock
+                 DATA  Daten
+			     !Load Select
+				 5V und GND
+                 div

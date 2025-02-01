@@ -54,3 +54,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/code/pic_1D.X/build/
+/code/pic_1D.X/dist/
+/code/pic_2.X/build/
+/code/pic_2.X/dist/
+/code/pic_D.X/build/
+/code/pic_D.X/dist/

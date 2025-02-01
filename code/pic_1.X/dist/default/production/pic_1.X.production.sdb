@@ -1,0 +1,110 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F84 ]
+[d frameptr 0 ]
+"10 /opt/microchip/xc8/v3.00/pic/sources/c99/common/sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 /opt/microchip/xc8/v3.00/pic/sources/c99/common/Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 /opt/microchip/xc8/v3.00/pic/sources/c99/pic/__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"55 /home/gfl/Dokumente/digi_elektro/projekt/netztteil8stufig/code/pic_1.X/main.c
+[v _sendDat sendDat `(v  1 e 1 0 ]
+"71
+[v _clearAllRelay clearAllRelay `(v  1 e 1 0 ]
+"79
+[v _main main `(i  1 e 2 0 ]
+"145
+[v _ISR ISR `II(v  1 e 1 0 ]
+[s S117 . 1 `uc 1 RA0 1 0 :1:0 
+`uc 1 RA1 1 0 :1:1 
+`uc 1 RA2 1 0 :1:2 
+`uc 1 RA3 1 0 :1:3 
+`uc 1 RA4 1 0 :1:4 
+]
+"181 /opt/microchip/mplabx/v6.00/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8/pic/include/proc/pic16f84.h
+[u S123 . 1 `S117 1 . 1 0 ]
+[v _PORTAbits PORTAbits `VES123  1 e 1 @5 ]
+[s S22 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"228
+[u S31 . 1 `S22 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES31  1 e 1 @6 ]
+[s S85 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INTF 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INTE 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 EEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+"330
+[s S94 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 . 1 0 :2:3 
+`uc 1 TMR0IE 1 0 :1:5 
+]
+[u S99 . 1 `S85 1 . 1 0 `S94 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES99  1 e 1 @11 ]
+[s S70 . 1 `uc 1 TRISA0 1 0 :1:0 
+`uc 1 TRISA1 1 0 :1:1 
+`uc 1 TRISA2 1 0 :1:2 
+`uc 1 TRISA3 1 0 :1:3 
+`uc 1 TRISA4 1 0 :1:4 
+]
+"469
+[u S76 . 1 `S70 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES76  1 e 1 @133 ]
+[s S49 . 1 `uc 1 TRISB0 1 0 :1:0 
+`uc 1 TRISB1 1 0 :1:1 
+`uc 1 TRISB2 1 0 :1:2 
+`uc 1 TRISB3 1 0 :1:3 
+`uc 1 TRISB4 1 0 :1:4 
+`uc 1 TRISB5 1 0 :1:5 
+`uc 1 TRISB6 1 0 :1:6 
+`uc 1 TRISB7 1 0 :1:7 
+]
+"516
+[u S58 . 1 `S49 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES58  1 e 1 @134 ]
+"47 /home/gfl/Dokumente/digi_elektro/projekt/netztteil8stufig/code/pic_1.X/main.c
+[v _isrInfo isrInfo `uc  1 e 1 0 ]
+"79
+[v _main main `(i  1 e 2 0 ]
+{
+"143
+} 0
+"55
+[v _sendDat sendDat `(v  1 e 1 0 ]
+{
+[v sendDat@dat dat `uc  1 p 1 wreg ]
+"58
+[v sendDat@i i `uc  1 a 1 6 ]
+"56
+[v sendDat@maske maske `i  1 a 2 4 ]
+"55
+[v sendDat@dat dat `uc  1 p 1 wreg ]
+[v sendDat@dat dat `uc  1 p 1 3 ]
+"69
+} 0
+"71
+[v _clearAllRelay clearAllRelay `(v  1 e 1 0 ]
+{
+"77
+} 0
+"145
+[v _ISR ISR `II(v  1 e 1 0 ]
+{
+"157
+} 0

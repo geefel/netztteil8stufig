@@ -1,0 +1,898 @@
+
+
+Microchip MPLAB XC8 Assembler V3.00 build 20241204225717 
+                                                                                               Sun Jan 19 14:53:41 2025
+
+Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1 
+     1                           	processor	16F84
+     2                           	pagewidth 120
+     3                           	opt	flic
+     4                           	psect	cinit,global,class=CODE,space=0,merge=1,delta=2
+     5                           	psect	bssBANK0,global,class=BANK0,space=1,delta=1,noexec
+     6                           	psect	cstackCOMMON,global,class=COMMON,space=1,delta=1,noexec
+     7                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1,noexec
+     8                           	psect	maintext,global,class=CODE,space=0,split=1,delta=2
+     9                           	psect	text1,local,class=CODE,space=0,merge=1,delta=2
+    10                           	psect	text2,local,class=CODE,space=0,merge=1,delta=2
+    11                           	psect	text3,local,class=CODE,space=0,merge=1,delta=2
+    12                           	psect	intentry,global,class=CODE,space=0,delta=2
+    13                           	dabs	1,0x4E,2
+    14     0000                     
+    15                           ; Version 2.40
+    16                           ; Generated 17/11/2021 GMT
+    17                           ; 
+    18                           ; Copyright © 2021, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    19                           ; All rights reserved.
+    20                           ; 
+    21                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    22                           ; 
+    23                           ; Redistribution and use in source and binary forms, with or without modification, are
+    24                           ; permitted provided that the following conditions are met:
+    25                           ; 
+    26                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    27                           ;        conditions and the following disclaimer.
+    28                           ; 
+    29                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    30                           ;        of conditions and the following disclaimer in the documentation and/or other
+    31                           ;        materials provided with the distribution. Publication is not required when
+    32                           ;        this file is used in an embedded application.
+    33                           ; 
+    34                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    35                           ;        software without specific prior written permission.
+    36                           ; 
+    37                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    38                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    39                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    40                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    41                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    42                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    43                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    44                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    45                           ; 
+    46                           ; 
+    47                           ; Code-generator required, PIC16F84 Definitions
+    48                           ; 
+    49                           ; SFR Addresses
+    50     0004                     fsr             equ	4
+    51     0004                     fsr0            equ	4
+    52     0000                     indf            equ	0
+    53     0000                     indf0           equ	0
+    54     0002                     pc              equ	2
+    55     0002                     pcl             equ	2
+    56     000A                     pclath          equ	10
+    57     0003                     status          equ	3
+    58     0000                     INDF            equ	0	;# 
+    59     0001                     TMR0            equ	1	;# 
+    60     0002                     PCL             equ	2	;# 
+    61     0003                     STATUS          equ	3	;# 
+    62     0004                     FSR             equ	4	;# 
+    63     0005                     PORTA           equ	5	;# 
+    64     0006                     PORTB           equ	6	;# 
+    65     0008                     EEDATA          equ	8	;# 
+    66     0009                     EEADR           equ	9	;# 
+    67     000A                     PCLATH          equ	10	;# 
+    68     000B                     INTCON          equ	11	;# 
+    69     0081                     OPTION_REG      equ	129	;# 
+    70     0085                     TRISA           equ	133	;# 
+    71     0086                     TRISB           equ	134	;# 
+    72     0088                     EECON1          equ	136	;# 
+    73     0089                     EECON2          equ	137	;# 
+    74     0000                     INDF            equ	0	;# 
+    75     0001                     TMR0            equ	1	;# 
+    76     0002                     PCL             equ	2	;# 
+    77     0003                     STATUS          equ	3	;# 
+    78     0004                     FSR             equ	4	;# 
+    79     0005                     PORTA           equ	5	;# 
+    80     0006                     PORTB           equ	6	;# 
+    81     0008                     EEDATA          equ	8	;# 
+    82     0009                     EEADR           equ	9	;# 
+    83     000A                     PCLATH          equ	10	;# 
+    84     000B                     INTCON          equ	11	;# 
+    85     0081                     OPTION_REG      equ	129	;# 
+    86     0085                     TRISA           equ	133	;# 
+    87     0086                     TRISB           equ	134	;# 
+    88     0088                     EECON1          equ	136	;# 
+    89     0089                     EECON2          equ	137	;# 
+    90     0005                     _PORTAbits      set	5
+    91     000B                     _INTCONbits     set	11
+    92     0006                     _PORTBbits      set	6
+    93     0085                     _TRISAbits      set	133
+    94     0086                     _TRISBbits      set	134
+    95                           
+    96                           	psect	cinit
+    97     000C                     start_initialization:	
+    98                           ; #config settings
+    99                           
+   100     000C                     __initialization:
+   101                           
+   102                           ; Clear objects allocated to BANK0
+   103     000C  1283               	bcf	3,5	;RP0=0, select bank0
+   104     000D  0193               	clrf	__pbssBANK0& (0+127)
+   105     000E                     end_of_initialization:	
+   106                           ;End of C runtime variable initialization code
+   107                           
+   108     000E                     __end_of__initialization:
+   109     000E  0183               	clrf	3
+   110     000F  2810               	ljmp	_main	;jump to C main() function
+   111                           
+   112                           	psect	bssBANK0
+   113     0013                     __pbssBANK0:
+   114     0013                     _isrInfo:
+   115     0013                     	ds	1
+   116                           
+   117                           	psect	cstackCOMMON
+   118     0000                     __pcstackCOMMON:
+   119     0000                     ??_clearAllRelay:
+   120     0000                     ??_main:	
+   121                           ; 1 bytes @ 0x0
+   122                           
+   123                           
+   124                           	psect	cstackBANK0
+   125     000C                     __pcstackBANK0:	
+   126                           ; 1 bytes @ 0x0
+   127                           
+   128     000C                     ?_sendDat:
+   129     000C                     ?_clearAllRelay:	
+   130                           ; 1 bytes @ 0x0
+   131                           
+   132     000C                     ?_ISR:	
+   133                           ; 1 bytes @ 0x0
+   134                           
+   135     000C                     ?_main:	
+   136                           ; 1 bytes @ 0x0
+   137                           
+   138     000C                     ??_ISR:	
+   139                           ; 2 bytes @ 0x0
+   140                           
+   141                           
+   142                           ; 1 bytes @ 0x0
+   143     000C                     	ds	2
+   144     000E                     ??_sendDat:
+   145                           
+   146                           ; 1 bytes @ 0x2
+   147     000E                     	ds	1
+   148     000F                     sendDat@dat:
+   149                           
+   150                           ; 1 bytes @ 0x3
+   151     000F                     	ds	1
+   152     0010                     sendDat@maske:
+   153                           
+   154                           ; 2 bytes @ 0x4
+   155     0010                     	ds	2
+   156     0012                     sendDat@i:
+   157                           
+   158                           ; 1 bytes @ 0x6
+   159     0012                     	ds	1
+   160                           
+   161                           	psect	maintext
+   162     0010                     __pmaintext:	
+   163 ;;
+   164 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   165 ;;
+   166 ;; *************** function _main *****************
+   167 ;; Defined at:
+   168 ;;		line 79 in file "main.c"
+   169 ;; Parameters:    Size  Location     Type
+   170 ;;		None
+   171 ;; Auto vars:     Size  Location     Type
+   172 ;;		None
+   173 ;; Return value:  Size  Location     Type
+   174 ;;                  2   28[None  ] int 
+   175 ;; Registers used:
+   176 ;;		wreg, status,2, status,0, pclath, cstack
+   177 ;; Tracked objects:
+   178 ;;		On entry : B00/0
+   179 ;;		On exit  : 0/0
+   180 ;;		Unchanged: 0/0
+   181 ;; Data sizes:     COMMON   BANK0
+   182 ;;      Params:         0       0
+   183 ;;      Locals:         0       0
+   184 ;;      Temps:          0       0
+   185 ;;      Totals:         0       0
+   186 ;;Total ram usage:        0 bytes
+   187 ;; Hardware stack levels required when called: 2
+   188 ;; This function calls:
+   189 ;;		_clearAllRelay
+   190 ;;		_sendDat
+   191 ;; This function is called by:
+   192 ;;		Startup code after reset
+   193 ;; This function uses a non-reentrant model
+   194 ;;
+   195                           
+   196     0010                     _main:	
+   197                           ;psect for function _main
+   198                           
+   199     0010                     l692:	
+   200                           ;incstack = 0
+   201                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   202                           
+   203                           
+   204                           ;main.c: 80:     TRISBbits.TRISB0 = 1;
+   205     0010  1683               	bsf	3,5	;RP0=1, select bank1
+   206     0011  1406               	bsf	6,0	;volatile
+   207                           
+   208                           ;main.c: 81:     TRISBbits.TRISB1 = 0;
+   209     0012  1086               	bcf	6,1	;volatile
+   210                           
+   211                           ;main.c: 82:     TRISBbits.TRISB2 = 0;
+   212     0013  1106               	bcf	6,2	;volatile
+   213                           
+   214                           ;main.c: 83:     TRISBbits.TRISB3 = 0;
+   215     0014  1186               	bcf	6,3	;volatile
+   216                           
+   217                           ;main.c: 84:     TRISBbits.TRISB4 = 0;
+   218     0015  1206               	bcf	6,4	;volatile
+   219                           
+   220                           ;main.c: 85:     TRISBbits.TRISB5 = 0;
+   221     0016  1286               	bcf	6,5	;volatile
+   222                           
+   223                           ;main.c: 86:     TRISBbits.TRISB6 = 0;
+   224     0017  1306               	bcf	6,6	;volatile
+   225                           
+   226                           ;main.c: 87:     TRISBbits.TRISB7 = 0;
+   227     0018  1386               	bcf	6,7	;volatile
+   228                           
+   229                           ;main.c: 88:     TRISAbits.TRISA0 = 1;
+   230     0019  1405               	bsf	5,0	;volatile
+   231                           
+   232                           ;main.c: 89:     TRISAbits.TRISA1 = 1;
+   233     001A  1485               	bsf	5,1	;volatile
+   234                           
+   235                           ;main.c: 90:     TRISAbits.TRISA2 = 1;
+   236     001B  1505               	bsf	5,2	;volatile
+   237                           
+   238                           ;main.c: 91:     TRISAbits.TRISA3 = 1;
+   239     001C  1585               	bsf	5,3	;volatile
+   240                           
+   241                           ;main.c: 92:     TRISAbits.TRISA4 = 1;
+   242     001D  1605               	bsf	5,4	;volatile
+   243                           
+   244                           ;main.c: 94:     PORTBbits.RB1 = 1;
+   245     001E  1283               	bcf	3,5	;RP0=0, select bank0
+   246     001F  1486               	bsf	6,1	;volatile
+   247                           
+   248                           ;main.c: 95:     PORTBbits.RB2 = 1;
+   249     0020  1506               	bsf	6,2	;volatile
+   250                           
+   251                           ;main.c: 97:     PORTBbits.RB3 = 0;
+   252     0021  1186               	bcf	6,3	;volatile
+   253                           
+   254                           ;main.c: 98:     PORTBbits.RB4 = 0;
+   255     0022  1206               	bcf	6,4	;volatile
+   256                           
+   257                           ;main.c: 99:     PORTBbits.RB5 = 0;
+   258     0023  1286               	bcf	6,5	;volatile
+   259                           
+   260                           ;main.c: 100:     PORTBbits.RB6 = 0;
+   261     0024  1306               	bcf	6,6	;volatile
+   262                           
+   263                           ;main.c: 101:     PORTBbits.RB7 = 0;
+   264     0025  1386               	bcf	6,7	;volatile
+   265                           
+   266                           ;main.c: 103:     INTCONbits.GIE = 1;
+   267     0026  178B               	bsf	11,7	;volatile
+   268                           
+   269                           ;main.c: 104:     INTCONbits.INTE = 1;
+   270     0027  160B               	bsf	11,4	;volatile
+   271     0028                     l29:	
+   272                           ;main.c: 106:     while(1) {
+   273                           
+   274                           
+   275                           ;main.c: 107:         if (PORTAbits.RA0 == 0) {
+   276     0028  1805               	btfsc	5,0	;volatile
+   277     0029  282B               	goto	u201
+   278     002A  282C               	goto	u200
+   279     002B                     u201:
+   280     002B  2836               	goto	l30
+   281     002C                     u200:
+   282     002C                     l694:
+   283                           
+   284                           ;main.c: 108:             clearAllRelay();
+   285     002C  20BD               	fcall	_clearAllRelay
+   286     002D                     l696:
+   287                           
+   288                           ;main.c: 109:             PORTBbits.RB3 = 1;
+   289     002D  1283               	bcf	3,5	;RP0=0, select bank0
+   290     002E  1586               	bsf	6,3	;volatile
+   291     002F                     l698:
+   292                           
+   293                           ;main.c: 110:             sendDat('1');
+   294     002F  3031               	movlw	49
+   295     0030  2079               	fcall	_sendDat
+   296     0031                     l31:	
+   297                           ;main.c: 111:             while(PORTAbits.RA0 == 0) ;
+   298                           
+   299     0031  1283               	bcf	3,5	;RP0=0, select bank0
+   300     0032  1C05               	btfss	5,0	;volatile
+   301     0033  2835               	goto	u211
+   302     0034  2836               	goto	u210
+   303     0035                     u211:
+   304     0035  2831               	goto	l31
+   305     0036                     u210:
+   306     0036                     l30:	
+   307                           ;main.c: 112:         }
+   308                           
+   309                           
+   310                           ;main.c: 113:         if (PORTAbits.RA1 == 0) {
+   311     0036  1885               	btfsc	5,1	;volatile
+   312     0037  2839               	goto	u221
+   313     0038  283A               	goto	u220
+   314     0039                     u221:
+   315     0039  2844               	goto	l34
+   316     003A                     u220:
+   317     003A                     l700:
+   318                           
+   319                           ;main.c: 114:             clearAllRelay();
+   320     003A  20BD               	fcall	_clearAllRelay
+   321     003B                     l702:
+   322                           
+   323                           ;main.c: 115:             PORTBbits.RB4 = 1;
+   324     003B  1283               	bcf	3,5	;RP0=0, select bank0
+   325     003C  1606               	bsf	6,4	;volatile
+   326     003D                     l704:
+   327                           
+   328                           ;main.c: 116:             sendDat('2');
+   329     003D  3032               	movlw	50
+   330     003E  2079               	fcall	_sendDat
+   331     003F                     l35:	
+   332                           ;main.c: 117:             while(PORTAbits.RA1 == 0) ;
+   333                           
+   334     003F  1283               	bcf	3,5	;RP0=0, select bank0
+   335     0040  1C85               	btfss	5,1	;volatile
+   336     0041  2843               	goto	u231
+   337     0042  2844               	goto	u230
+   338     0043                     u231:
+   339     0043  283F               	goto	l35
+   340     0044                     u230:
+   341     0044                     l34:	
+   342                           ;main.c: 118:         }
+   343                           
+   344                           
+   345                           ;main.c: 119:         if (PORTAbits.RA2 == 0) {
+   346     0044  1905               	btfsc	5,2	;volatile
+   347     0045  2847               	goto	u241
+   348     0046  2848               	goto	u240
+   349     0047                     u241:
+   350     0047  2852               	goto	l38
+   351     0048                     u240:
+   352     0048                     l706:
+   353                           
+   354                           ;main.c: 120:             clearAllRelay();
+   355     0048  20BD               	fcall	_clearAllRelay
+   356     0049                     l708:
+   357                           
+   358                           ;main.c: 121:             PORTBbits.RB5 = 1;
+   359     0049  1283               	bcf	3,5	;RP0=0, select bank0
+   360     004A  1686               	bsf	6,5	;volatile
+   361     004B                     l710:
+   362                           
+   363                           ;main.c: 122:             sendDat('3');
+   364     004B  3033               	movlw	51
+   365     004C  2079               	fcall	_sendDat
+   366     004D                     l39:	
+   367                           ;main.c: 123:             while(PORTAbits.RA2 == 0) ;
+   368                           
+   369     004D  1283               	bcf	3,5	;RP0=0, select bank0
+   370     004E  1D05               	btfss	5,2	;volatile
+   371     004F  2851               	goto	u251
+   372     0050  2852               	goto	u250
+   373     0051                     u251:
+   374     0051  284D               	goto	l39
+   375     0052                     u250:
+   376     0052                     l38:	
+   377                           ;main.c: 124:         }
+   378                           
+   379                           
+   380                           ;main.c: 125:         if (PORTAbits.RA3 == 0) {
+   381     0052  1985               	btfsc	5,3	;volatile
+   382     0053  2855               	goto	u261
+   383     0054  2856               	goto	u260
+   384     0055                     u261:
+   385     0055  2860               	goto	l42
+   386     0056                     u260:
+   387     0056                     l712:
+   388                           
+   389                           ;main.c: 126:             clearAllRelay();
+   390     0056  20BD               	fcall	_clearAllRelay
+   391     0057                     l714:
+   392                           
+   393                           ;main.c: 127:             PORTBbits.RB6 = 1;
+   394     0057  1283               	bcf	3,5	;RP0=0, select bank0
+   395     0058  1706               	bsf	6,6	;volatile
+   396     0059                     l716:
+   397                           
+   398                           ;main.c: 128:             sendDat('4');
+   399     0059  3034               	movlw	52
+   400     005A  2079               	fcall	_sendDat
+   401     005B                     l43:	
+   402                           ;main.c: 129:             while(PORTAbits.RA3 == 0) ;
+   403                           
+   404     005B  1283               	bcf	3,5	;RP0=0, select bank0
+   405     005C  1D85               	btfss	5,3	;volatile
+   406     005D  285F               	goto	u271
+   407     005E  2860               	goto	u270
+   408     005F                     u271:
+   409     005F  285B               	goto	l43
+   410     0060                     u270:
+   411     0060                     l42:	
+   412                           ;main.c: 130:         }
+   413                           
+   414                           
+   415                           ;main.c: 131:         if (PORTAbits.RA4 == 0) {
+   416     0060  1A05               	btfsc	5,4	;volatile
+   417     0061  2863               	goto	u281
+   418     0062  2864               	goto	u280
+   419     0063                     u281:
+   420     0063  286E               	goto	l724
+   421     0064                     u280:
+   422     0064                     l718:
+   423                           
+   424                           ;main.c: 132:             clearAllRelay();
+   425     0064  20BD               	fcall	_clearAllRelay
+   426     0065                     l720:
+   427                           
+   428                           ;main.c: 133:             PORTBbits.RB7 = 1;
+   429     0065  1283               	bcf	3,5	;RP0=0, select bank0
+   430     0066  1786               	bsf	6,7	;volatile
+   431     0067                     l722:
+   432                           
+   433                           ;main.c: 134:             sendDat('5');
+   434     0067  3035               	movlw	53
+   435     0068  2079               	fcall	_sendDat
+   436     0069                     l47:	
+   437                           ;main.c: 135:             while(PORTAbits.RA4 == 0) ;
+   438                           
+   439     0069  1283               	bcf	3,5	;RP0=0, select bank0
+   440     006A  1E05               	btfss	5,4	;volatile
+   441     006B  286D               	goto	u291
+   442     006C  286E               	goto	u290
+   443     006D                     u291:
+   444     006D  2869               	goto	l47
+   445     006E                     u290:
+   446     006E                     l724:
+   447                           
+   448                           ;main.c: 137:         if (isrInfo) {
+   449     006E  0813               	movf	_isrInfo,w
+   450     006F  1903               	btfsc	3,2
+   451     0070  2872               	goto	u301
+   452     0071  2873               	goto	u300
+   453     0072                     u301:
+   454     0072  2828               	goto	l29
+   455     0073                     u300:
+   456     0073                     l726:
+   457                           
+   458                           ;main.c: 138:             sendDat('o');
+   459     0073  306F               	movlw	111
+   460     0074  2079               	fcall	_sendDat
+   461     0075                     l728:
+   462                           
+   463                           ;main.c: 139:             isrInfo = 0;
+   464     0075  1283               	bcf	3,5	;RP0=0, select bank0
+   465     0076  0193               	clrf	_isrInfo
+   466     0077  2828               	goto	l29
+   467     0078  280B               	ljmp	start
+   468     0079                     __end_of_main:
+   469                           
+   470                           	psect	text1
+   471     0079                     __ptext1:	
+   472 ;; *************** function _sendDat *****************
+   473 ;; Defined at:
+   474 ;;		line 55 in file "main.c"
+   475 ;; Parameters:    Size  Location     Type
+   476 ;;  dat             1    wreg     unsigned char 
+   477 ;; Auto vars:     Size  Location     Type
+   478 ;;  dat             1    3[BANK0 ] unsigned char 
+   479 ;;  i               1    6[BANK0 ] unsigned char 
+   480 ;;  maske           2    4[BANK0 ] int 
+   481 ;; Return value:  Size  Location     Type
+   482 ;;                  1    wreg      void 
+   483 ;; Registers used:
+   484 ;;		wreg, status,2, status,0
+   485 ;; Tracked objects:
+   486 ;;		On entry : 0/0
+   487 ;;		On exit  : 0/0
+   488 ;;		Unchanged: 0/0
+   489 ;; Data sizes:     COMMON   BANK0
+   490 ;;      Params:         0       0
+   491 ;;      Locals:         0       4
+   492 ;;      Temps:          0       1
+   493 ;;      Totals:         0       5
+   494 ;;Total ram usage:        5 bytes
+   495 ;; Hardware stack levels used: 1
+   496 ;; Hardware stack levels required when called: 1
+   497 ;; This function calls:
+   498 ;;		Nothing
+   499 ;; This function is called by:
+   500 ;;		_main
+   501 ;; This function uses a non-reentrant model
+   502 ;;
+   503                           
+   504     0079                     _sendDat:	
+   505                           ;psect for function _sendDat
+   506                           
+   507                           
+   508                           ;incstack = 0
+   509                           ; Regs used in _sendDat: [wreg+status,2+status,0]
+   510                           ;sendDat@dat stored from wreg
+   511     0079  1283               	bcf	3,5	;RP0=0, select bank0
+   512     007A  008F               	movwf	sendDat@dat
+   513     007B                     l670:
+   514                           
+   515                           ;main.c: 56:     int maske = 0b00000001;
+   516     007B  3001               	movlw	1
+   517     007C  0090               	movwf	sendDat@maske
+   518     007D  3000               	movlw	0
+   519     007E  0091               	movwf	sendDat@maske+1
+   520     007F                     l672:
+   521                           
+   522                           ;main.c: 58:     for(uint8_t i = 0; i < 8; ++i) {
+   523     007F  0192               	clrf	sendDat@i
+   524     0080                     l17:
+   525                           
+   526                           ;main.c: 59:         PORTBbits.RB1 = 0;
+   527     0080  1086               	bcf	6,1	;volatile
+   528     0081                     l678:
+   529                           
+   530                           ;main.c: 60:         if (maske & dat)
+   531     0081  080F               	movf	sendDat@dat,w
+   532     0082  0510               	andwf	sendDat@maske,w
+   533     0083  1903               	btfsc	3,2
+   534     0084  2886               	goto	u171
+   535     0085  2887               	goto	u170
+   536     0086                     u171:
+   537     0086  2889               	goto	l19
+   538     0087                     u170:
+   539     0087                     l680:
+   540                           
+   541                           ;main.c: 61:             PORTBbits.RB2 = 1;
+   542     0087  1506               	bsf	6,2	;volatile
+   543     0088  288A               	goto	l682
+   544     0089                     l19:	
+   545                           ;main.c: 62:         else
+   546                           
+   547                           
+   548                           ;main.c: 63:             PORTBbits.RB2 = 0;
+   549     0089  1106               	bcf	6,2	;volatile
+   550     008A                     l682:
+   551                           
+   552                           ;main.c: 64:         maske <<= 2;
+   553     008A  3002               	movlw	2
+   554     008B                     u185:
+   555     008B  1003               	clrc
+   556     008C  0D90               	rlf	sendDat@maske,f
+   557     008D  0D91               	rlf	sendDat@maske+1,f
+   558     008E  3EFF               	addlw	-1
+   559     008F  1D03               	skipz
+   560     0090  288B               	goto	u185
+   561                           
+   562                           ;main.c: 65:         _delay((unsigned long)((90)*(4000000/4000000.0)));
+   563     0091  301D               	movlw	29
+   564     0092  008E               	movwf	??_sendDat
+   565     0093                     u337:
+   566     0093  0B8E               	decfsz	??_sendDat,f
+   567     0094  2893               	goto	u337
+   568     0095  2896               	nop2
+   569     0096                     l684:
+   570                           
+   571                           ;main.c: 66:         PORTBbits.RB1 = 1;
+   572     0096  1283               	bcf	3,5	;RP0=0, select bank0
+   573     0097  1486               	bsf	6,1	;volatile
+   574                           
+   575                           ;main.c: 67:         _delay((unsigned long)((100)*(4000000/4000000.0)));
+   576     0098  3021               	movlw	33
+   577     0099  008E               	movwf	??_sendDat
+   578     009A                     u347:
+   579     009A  0B8E               	decfsz	??_sendDat,f
+   580     009B  289A               	goto	u347
+   581     009C                     l686:
+   582                           
+   583                           ;main.c: 68:     }
+   584     009C  3001               	movlw	1
+   585     009D  1283               	bcf	3,5	;RP0=0, select bank0
+   586     009E  0792               	addwf	sendDat@i,f
+   587     009F                     l688:
+   588     009F  3008               	movlw	8
+   589     00A0  0212               	subwf	sendDat@i,w
+   590     00A1  1C03               	skipc
+   591     00A2  28A4               	goto	u191
+   592     00A3  28A5               	goto	u190
+   593     00A4                     u191:
+   594     00A4  2880               	goto	l17
+   595     00A5                     u190:
+   596     00A5                     l21:
+   597     00A5  0008               	return
+   598     00A6                     __end_of_sendDat:
+   599                           
+   600                           	psect	text2
+   601     00BD                     __ptext2:	
+   602 ;; *************** function _clearAllRelay *****************
+   603 ;; Defined at:
+   604 ;;		line 71 in file "main.c"
+   605 ;; Parameters:    Size  Location     Type
+   606 ;;		None
+   607 ;; Auto vars:     Size  Location     Type
+   608 ;;		None
+   609 ;; Return value:  Size  Location     Type
+   610 ;;                  1    wreg      void 
+   611 ;; Registers used:
+   612 ;;		None
+   613 ;; Tracked objects:
+   614 ;;		On entry : 0/0
+   615 ;;		On exit  : 0/0
+   616 ;;		Unchanged: 0/0
+   617 ;; Data sizes:     COMMON   BANK0
+   618 ;;      Params:         0       0
+   619 ;;      Locals:         0       0
+   620 ;;      Temps:          0       0
+   621 ;;      Totals:         0       0
+   622 ;;Total ram usage:        0 bytes
+   623 ;; Hardware stack levels used: 1
+   624 ;; Hardware stack levels required when called: 1
+   625 ;; This function calls:
+   626 ;;		Nothing
+   627 ;; This function is called by:
+   628 ;;		_main
+   629 ;; This function uses a non-reentrant model
+   630 ;;
+   631                           
+   632     00BD                     _clearAllRelay:	
+   633                           ;psect for function _clearAllRelay
+   634                           
+   635     00BD                     l690:	
+   636                           ;incstack = 0
+   637                           ; Regs used in _clearAllRelay: []
+   638                           
+   639                           
+   640                           ;main.c: 72:     PORTBbits.RB3 = 0;
+   641     00BD  1283               	bcf	3,5	;RP0=0, select bank0
+   642     00BE  1186               	bcf	6,3	;volatile
+   643                           
+   644                           ;main.c: 73:     PORTBbits.RB4 = 0;
+   645     00BF  1206               	bcf	6,4	;volatile
+   646                           
+   647                           ;main.c: 74:     PORTBbits.RB5 = 0;
+   648     00C0  1286               	bcf	6,5	;volatile
+   649                           
+   650                           ;main.c: 75:     PORTBbits.RB6 = 0;
+   651     00C1  1306               	bcf	6,6	;volatile
+   652                           
+   653                           ;main.c: 76:     PORTBbits.RB7 = 0;
+   654     00C2  1386               	bcf	6,7	;volatile
+   655     00C3                     l24:
+   656     00C3  0008               	return
+   657     00C4                     __end_of_clearAllRelay:
+   658                           
+   659                           	psect	text3
+   660     00A6                     __ptext3:	
+   661 ;; *************** function _ISR *****************
+   662 ;; Defined at:
+   663 ;;		line 145 in file "main.c"
+   664 ;; Parameters:    Size  Location     Type
+   665 ;;		None
+   666 ;; Auto vars:     Size  Location     Type
+   667 ;;		None
+   668 ;; Return value:  Size  Location     Type
+   669 ;;                  1    wreg      void 
+   670 ;; Registers used:
+   671 ;;		None
+   672 ;; Tracked objects:
+   673 ;;		On entry : 0/0
+   674 ;;		On exit  : 0/0
+   675 ;;		Unchanged: 0/0
+   676 ;; Data sizes:     COMMON   BANK0
+   677 ;;      Params:         0       0
+   678 ;;      Locals:         0       0
+   679 ;;      Temps:          0       2
+   680 ;;      Totals:         0       2
+   681 ;;Total ram usage:        2 bytes
+   682 ;; Hardware stack levels used: 1
+   683 ;; This function calls:
+   684 ;;		Nothing
+   685 ;; This function is called by:
+   686 ;;		Interrupt level 1
+   687 ;; This function uses a non-reentrant model
+   688 ;;
+   689                           
+   690     00A6                     _ISR:	
+   691                           ;psect for function _ISR
+   692                           
+   693     00A6                     i1l730:
+   694                           
+   695                           ;main.c: 146:     if (INTCONbits.INTF) {
+   696     00A6  1C8B               	btfss	11,1	;volatile
+   697     00A7  28A9               	goto	u31_21
+   698     00A8  28AA               	goto	u31_20
+   699     00A9                     u31_21:
+   700     00A9  28B6               	goto	i1l60
+   701     00AA                     u31_20:
+   702     00AA                     i1l732:
+   703                           
+   704                           ;main.c: 147:         if (!PORTBbits.RB0) {
+   705     00AA  1806               	btfsc	6,0	;volatile
+   706     00AB  28AD               	goto	u32_21
+   707     00AC  28AE               	goto	u32_20
+   708     00AD                     u32_21:
+   709     00AD  28B5               	goto	i1l59
+   710     00AE                     u32_20:
+   711     00AE                     i1l734:
+   712                           
+   713                           ;main.c: 148:             PORTBbits.RB3 = 0;
+   714     00AE  1186               	bcf	6,3	;volatile
+   715                           
+   716                           ;main.c: 149:             PORTBbits.RB4 = 0;
+   717     00AF  1206               	bcf	6,4	;volatile
+   718                           
+   719                           ;main.c: 150:             PORTBbits.RB5 = 0;
+   720     00B0  1286               	bcf	6,5	;volatile
+   721                           
+   722                           ;main.c: 151:             PORTBbits.RB6 = 0;
+   723     00B1  1306               	bcf	6,6	;volatile
+   724                           
+   725                           ;main.c: 152:             PORTBbits.RB7 = 0;
+   726     00B2  1386               	bcf	6,7	;volatile
+   727                           
+   728                           ;main.c: 153:             isrInfo = 1;
+   729     00B3  3001               	movlw	1
+   730     00B4  0093               	movwf	_isrInfo
+   731     00B5                     i1l59:	
+   732                           ;main.c: 154:         }
+   733                           
+   734                           
+   735                           ;main.c: 155:         INTCONbits.INTF = 0;
+   736     00B5  108B               	bcf	11,1	;volatile
+   737     00B6                     i1l60:
+   738     00B6  080D               	movf	??_ISR+1,w
+   739     00B7  008A               	movwf	10
+   740     00B8  0E0C               	swapf	??_ISR,w
+   741     00B9  0083               	movwf	3
+   742     00BA  0ECE               	swapf	btemp,f
+   743     00BB  0E4E               	swapf	btemp,w
+   744     00BC  0009               	retfie
+   745     00BD                     __end_of_ISR:
+   746     0000                     ___latbits      equ	0
+   747     004E                     btemp           set	78	;btemp
+   748     004E                     wtemp0          set	78
+   749                           
+   750                           	psect	intentry
+   751     0004                     __pintentry:	
+   752                           ;incstack = 0
+   753                           ; Regs used in _ISR: []
+   754                           
+   755     0004                     interrupt_function:
+   756     004E                     saved_w         set	btemp
+   757     0004  00CE               	movwf	btemp
+   758     0005  0E03               	swapf	3,w
+   759     0006  1283               	bcf	3,5	;RP0=0, select bank0
+   760     0007  008C               	movwf	??_ISR
+   761     0008  080A               	movf	10,w
+   762     0009  008D               	movwf	??_ISR+1
+   763     000A  28A6               	ljmp	_ISR
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         1
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMMON            0      0       0
+    BANK0            66      7       8
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMMON
+
+    None.
+
+Critical Paths under _ISR in COMMON
+
+    None.
+
+Critical Paths under _main in BANK0
+
+    _main->_sendDat
+
+Critical Paths under _ISR in BANK0
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 0     0      0      99
+                      _clearAllRelay
+                            _sendDat
+ ---------------------------------------------------------------------------------
+ (1) _sendDat                                              5     5      0      99
+                                              2 BANK0      5     5      0
+ ---------------------------------------------------------------------------------
+ (1) _clearAllRelay                                        0     0      0       0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 1
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (2) _ISR                                                  2     2      0       0
+                                              0 BANK0      2     2      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 2
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _clearAllRelay
+   _sendDat
+
+ _ISR (ROOT)
+
+Address spaces:
+Name               Size   Autos  Total    Usage
+BITCOMMON            0      0       0      0.0%
+BITBANK0            66      0       0      0.0%
+COMMON               0      0       0      0.0%
+BANK0               66      7       8     12.1%
+STACK                0      0       0      0.0%
+DATA                 0      0       8      0.0%
+
+
+Microchip Technology PIC Macro Assembler V3.00 build 20241204225717 
+Symbol Table                                                                                   Sun Jan 19 14:53:41 2025
+
+                     l21 00A5                       l30 0036                       l31 0031  
+                     l24 00C3                       l17 0080                       l42 0060  
+                     l34 0044                       l19 0089                       l43 005B  
+                     l35 003F                       l29 0028                       l38 0052  
+                     l47 0069                       l39 004D                      l700 003A  
+                    l710 004B                      l702 003B                      l720 0065  
+                    l712 0056                      l704 003D                      l722 0067  
+                    l714 0057                      l706 0048                      l724 006E  
+                    l716 0059                      l708 0049                      l670 007B  
+                    l726 0073                      l718 0064                      l680 0087  
+                    l672 007F                      l728 0075                      l690 00BD  
+                    l682 008A                      l684 0096                      l692 0010  
+                    l686 009C                      l678 0081                      l694 002C  
+                    l688 009F                      l696 002D                      l698 002F  
+                    u200 002C                      u201 002B                      u210 0036  
+                    u211 0035                      u300 0073                      u220 003A  
+                    u301 0072                      u221 0039                      u230 0044  
+                    u231 0043                      u240 0048                      u241 0047  
+                    u170 0087                      u250 0052                      u171 0086  
+                    u251 0051                      u260 0056                      u261 0055  
+                    u190 00A5                      u270 0060                      u191 00A4  
+                    u271 005F                      u280 0064                      u337 0093  
+                    u185 008B                      u281 0063                      u290 006E  
+                    u347 009A                      u291 006D                      _ISR 00A6  
+                   ?_ISR 000C                     i1l60 00B6                     i1l59 00B5  
+                   _main 0010                     btemp 004E                     start 000B  
+                  ??_ISR 000C                    ?_main 000C                    i1l730 00A6  
+                  i1l732 00AA                    i1l734 00AE                    u31_20 00AA  
+                  u31_21 00A9                    u32_20 00AE                    u32_21 00AD  
+        __end_of_sendDat 00A6                    pclath 000A                    status 0003  
+                  wtemp0 004E    __end_of_clearAllRelay 00C4          __initialization 000C  
+           __end_of_main 0079                   ??_main 0000                ??_sendDat 000E  
+                 saved_w 004E  __end_of__initialization 000E           __pcstackCOMMON 0000  
+             __pbssBANK0 0013               __pmaintext 0010               __pintentry 0004  
+                __ptext1 0079                  __ptext2 00BD                  __ptext3 00A6  
+                _isrInfo 0013                  _sendDat 0079     end_of_initialization 000E  
+              _PORTAbits 0005                _PORTBbits 0006                _TRISAbits 0085  
+              _TRISBbits 0086      start_initialization 000C              __end_of_ISR 00BD  
+          _clearAllRelay 00BD             sendDat@maske 0010                ___latbits 0000  
+          __pcstackBANK0 000C               sendDat@dat 000F           ?_clearAllRelay 000C  
+               ?_sendDat 000C        interrupt_function 0004          ??_clearAllRelay 0000  
+             _INTCONbits 000B                 intlevel1 0000                 sendDat@i 0012  
